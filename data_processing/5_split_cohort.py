@@ -8,13 +8,13 @@ from variables import MAIN_DIR
 
 all_ids = pd.read_csv(f"{MAIN_DIR}/outcomes.csv")["icustay_id"].unique()
 
-uf_ids = [icuid for icuid in all_ids if "UF_" in icuid]
+internal_ids = [icuid for icuid in all_ids if "internal_" in icuid]
 eicu_ids = [icuid for icuid in all_ids if "EICU_" in icuid]
 mimic_ids = [icuid for icuid in all_ids if "MIMIC_" in icuid]
 
-develop_ids = uf_ids
+develop_ids = internal_ids
 
-print(f"UF admissions: {len(uf_ids)}")
+print(f"internal admissions: {len(internal_ids)}")
 print(f"eICU admissions: {len(eicu_ids)}")
 print(f"MIMIC admissions: {len(mimic_ids)}")
 

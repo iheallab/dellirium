@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 from sklearn.metrics import roc_curve, auc
 
 # Main Directories
-MAIN_DIR = "/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3"
+MAIN_DIR = ".../clinical_notes/main3"
 best_models = ["transformer", "llama31", "gatortron_s_mlm"]
 modalities = ["ehr", "ehr_text"]
 

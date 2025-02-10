@@ -14,7 +14,7 @@ from scipy.stats import t
 from scipy.stats import norm
 import math
 
-MAIN_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3'
+MAIN_DIR = '.../clinical_notes/main3'
 
 ANALYSIS_DIR = f'{MAIN_DIR}/analyses/temporal'
 DATA_DIR = f"{MAIN_DIR}/final_data"

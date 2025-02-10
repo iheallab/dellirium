@@ -6,7 +6,7 @@ import pickle
 from sklearn.metrics import roc_curve, auc
 from sklearn.utils import resample
 
-MAIN_DIR = "/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3"
+MAIN_DIR = ".../clinical_notes/main3"
 best_models = ["transformer", "llama31", "gatortron_s_mlm"]
 modalities = ["ehr", "ehr_text"]
 

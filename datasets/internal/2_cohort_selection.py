@@ -10,7 +10,7 @@ from variables import DATA_DIR, OUTPUT_DIR
 if not os.path.exists(f"{OUTPUT_DIR}/intermediate"):
     os.makedirs(f"{OUTPUT_DIR}/intermediate")
 
-cohort_flow = pd.DataFrame(data=[], columns=["UF"])
+cohort_flow = pd.DataFrame(data=[], columns=["internal"])
 
 # Load ICU stays
 
@@ -30,7 +30,7 @@ icustays = icustays.drop_duplicates(subset=['patient_deiden_id'], keep='first')
 
 dropped = orig - len(icustays['icustay_id'].unique())
 
-cohort_flow.loc["First admission", "UF"] = dropped
+cohort_flow.loc["First admission", "internal"] = dropped
 
 orig = len(icustays['icustay_id'].unique())
 
@@ -39,7 +39,7 @@ icustays = icustays[(icustays['los'] >= 1) & (icustays['los'] <= 30)]
 
 dropped = orig - len(icustays['icustay_id'].unique())
 
-cohort_flow.loc["los", "UF"] = dropped
+cohort_flow.loc["los", "internal"] = dropped
 
 orig = len(icustays['icustay_id'].unique())
 
@@ -53,7 +53,7 @@ icustays = icustays[icustays['icustay_id'].isin(patients['icustay_id'].unique())
 
 dropped = orig - len(icustays['icustay_id'].unique())
 
-cohort_flow.loc["Age", "UF"] = dropped
+cohort_flow.loc["Age", "internal"] = dropped
 
 orig = len(icustays['icustay_id'].unique())
 
@@ -68,7 +68,7 @@ icustays = icustays[~(icustays["icustay_id"].isin(admissions["icustay_id"].uniqu
 
 dropped = orig - len(icustays['icustay_id'].unique())
 
-cohort_flow.loc["Time of death", "UF"] = dropped
+cohort_flow.loc["Time of death", "internal"] = dropped
 
 orig = len(icustays['icustay_id'].unique())
 
@@ -83,7 +83,7 @@ icustays = icustays[icustays['icustay_id'].isin(brain_status['icustay_id'].uniqu
 
 dropped = orig - len(icustays['icustay_id'].unique())
 
-cohort_flow.loc["Brain status", "UF"] = dropped
+cohort_flow.loc["Brain status", "internal"] = dropped
 
 orig = len(icustays['icustay_id'].unique())
 

@@ -52,7 +52,7 @@ dropped = orig - len(icustays['icustay_id'].unique())
 
 
 cohort_flow = pd.read_csv(f'{OUTPUT_DIR}/intermediate/cohort_flow.csv', index_col="Unnamed: 0")
-cohort_flow.loc["Missing data", "UF"] = dropped
+cohort_flow.loc["Missing data", "internal"] = dropped
 
 cohort_flow.to_csv(f'{OUTPUT_DIR}/final/cohort_flow.csv')
 
