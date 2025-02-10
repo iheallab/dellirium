@@ -12,11 +12,11 @@ from statsmodels.stats.proportion import proportions_chisquare
 import re
 from scipy.stats import chi2_contingency
 
-UF_DIR = '/orange/parisa.rashidi/uf_delirium'
-MIMIC_DIR = '/orange/parisa.rashidi/mimiciv'
-EICU_DIR = '/orange/parisa.rashidi/eicu'
+INTERNAL_DIR = '.../internal_delirium'
+MIMIC_DIR = '.../mimiciv'
+EICU_DIR = '.../eicu'
 
-MAIN_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3'
+MAIN_DIR = '.../clinical_notes/main3'
 
 DATA_DIR = f'{MAIN_DIR}/final_data'
 ANALYSIS_DIR = f'{MAIN_DIR}/analyses/patient_char'
@@ -30,7 +30,7 @@ all_admissions = pd.read_csv(f'{DATA_DIR}/static.csv')
 
 # Load admissions
 
-admissions_uf = pd.read_csv(f'{UF_DIR}/icustays.csv')
+admissions_internal = pd.read_csv(f'{INTERNAL_DIR}/icustays.csv')
 admissions_mimic = pd.read_csv(f'{MIMIC_DIR}/icustays.csv.gz', compression='gzip',
                        usecols=['subject_id', 'hadm_id', 'stay_id', 'intime', 'outtime', 'los'])
 admissions_eicu = pd.read_csv(f'{EICU_DIR}/patient.csv.gz', compression='gzip',
@@ -39,12 +39,12 @@ admissions_eicu = pd.read_csv(f'{EICU_DIR}/patient.csv.gz', compression='gzip',
 # Convert LOS to days
 
 admissions_eicu["unitdischargeoffset"] = admissions_eicu["unitdischargeoffset"] / 1440
-admissions_uf.drop("icu_los", axis=1, inplace=True)
-admissions_uf["icu_los"] = (
-    pd.to_datetime(admissions_uf["exit_datetime"])
-    - pd.to_datetime(admissions_uf["enter_datetime"])
+admissions_internal.drop("icu_los", axis=1, inplace=True)
+admissions_internal["icu_los"] = (
+    pd.to_datetime(admissions_internal["exit_datetime"])
+    - pd.to_datetime(admissions_internal["enter_datetime"])
 ) / np.timedelta64(1, "h")
-admissions_uf["icu_los"] = admissions_uf["icu_los"] / 24
+admissions_internal["icu_los"] = admissions_internal["icu_los"] / 24
 
 # Merge all admissions
 
@@ -72,18 +72,18 @@ cols = ["icustay_id", "icu_los"]
 
 admissions_eicu = admissions_eicu.loc[:, cols]
 admissions_mimic = admissions_mimic.loc[:, cols]
-admissions_uf = admissions_uf.loc[:, cols]
+admissions_internal = admissions_internal.loc[:, cols]
 
 admissions_mimic["icustay_id"] = admissions_mimic["icustay_id"].astype(int)
 admissions_eicu["icustay_id"] = admissions_eicu["icustay_id"].astype(int)
-admissions_uf["icustay_id"] = admissions_uf["icustay_id"].astype(int)
+admissions_internal["icustay_id"] = admissions_internal["icustay_id"].astype(int)
 
 admissions_mimic["icustay_id"] = "MIMIC_" + admissions_mimic["icustay_id"].astype(str)
 admissions_eicu["icustay_id"] = "EICU_" + admissions_eicu["icustay_id"].astype(str)
-admissions_uf["icustay_id"] = "UF_" + admissions_uf["icustay_id"].astype(str)
+admissions_internal["icustay_id"] = "internal_" + admissions_internal["icustay_id"].astype(str)
 
 all_admissions_los = pd.concat(
-    [admissions_eicu, admissions_mimic, admissions_uf], axis=0
+    [admissions_eicu, admissions_mimic, admissions_internal], axis=0
 ).reset_index(drop=True)
 
 all_admissions = all_admissions.merge(all_admissions_los, on="icustay_id", how="inner")
@@ -132,7 +132,7 @@ print(all_admissions.head())
 print(all_admissions["coma"].value_counts())
 print(all_admissions["died"].value_counts())
 
-cohorts = ["EICU", "MIMIC", "UF"]
+cohorts = ["EICU", "MIMIC", "internal"]
 
 groups = [["Overall", all_ids], ["No Delirium", nodelirium], ["Delirium", delirium]]
 

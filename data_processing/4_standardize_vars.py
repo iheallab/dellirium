@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 
-from variables import UF_DATA_DIR, EICU_DATA_DIR, MIMIC_DATA_DIR, MAIN_DIR
+from variables import INTERNAL_DATA_DIR, EICU_DATA_DIR, MIMIC_DATA_DIR, MAIN_DIR
 
 seq = pd.read_csv(f"{MAIN_DIR}/clinical_data_unconverted.csv")
 
@@ -25,7 +25,7 @@ for cohort in cohorts:
 # Convert CRP
 
 var = "C Reactive Protein"
-cohorts = ["UF"]
+cohorts = ["internal"]
 
 for cohort in cohorts:
     
@@ -34,7 +34,7 @@ for cohort in cohorts:
 # Convert BNP
 
 var = "Brain Natiuretic"
-cohorts = ["UF"]
+cohorts = ["internal"]
 
 for cohort in cohorts:
     
@@ -58,7 +58,7 @@ lab_vars = ['Arterial Base Excess', 'Arterial CO2 Pressure', 'Arterial O2 Satura
         'Total Bilirubin', 'Albumin', 'Brain Natiuretic Peptide (BNP)', 'Direct Bilirubin', 'C Reactive Protein (CRP)',
         'Absolute Count - Basos', 'Absolute Count - Eos', 'Absolute Count - Lymphs', 'Absolute Count - Monos', 'Specific Gravity (urine)']
 
-cohorts = ["UF", "MIMIC", "EICU"]
+cohorts = ["internal", "MIMIC", "EICU"]
 
 lab_analysis = pd.DataFrame(data=[], columns=cohorts, index=lab_vars)
 

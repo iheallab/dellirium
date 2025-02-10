@@ -12,7 +12,7 @@ pio.templates.default = "plotly_white"
 
 #%%
 
-MAIN_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3'
+MAIN_DIR = '.../clinical_notes/main3'
 
 model = 'gatortron_s_mlm'
 

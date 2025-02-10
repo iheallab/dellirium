@@ -5,16 +5,16 @@ import numpy as np
 from tqdm import tqdm
 import os
 
-MAIN_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3'
+MAIN_DIR = '.../clinical_notes/main3'
 
 ANALYSIS_DIR = f'{MAIN_DIR}/analyses/temporal'
 
 if not os.path.exists(ANALYSIS_DIR):
     os.makedirs(ANALYSIS_DIR)
 
-EICU_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3/datasets/eicu'
-MIMIC_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3/datasets/mimic'
-UF_DIR = '/blue/parisa.rashidi/contreras.miguel/clinical_notes/main3/datasets/uf'
+EICU_DIR = '.../clinical_notes/main3/datasets/eicu'
+MIMIC_DIR = '.../clinical_notes/main3/datasets/mimic'
+INTERNAL_DIR = '.../clinical_notes/main3/datasets/internal'
 
 # EICU
 
@@ -141,7 +141,7 @@ brain_status = pd.read_csv(f'{MIMIC_DIR}/raw/scores.csv')
 
 brain_status = brain_status.sort_values(by=["stay_id", "charttime"])
 
-icustays = pd.read_csv(f'/orange/parisa.rashidi/mimiciv/icustays.csv.gz',
+icustays = pd.read_csv(f'.../mimiciv/icustays.csv.gz',
                        compression='gzip', usecols=['stay_id', 'intime'])
 
 brain_status = brain_status.merge(icustays, on="stay_id", how="inner")
@@ -264,9 +264,9 @@ print(delirium_mimic.iloc[:20])
 print(delirium_mimic["days"].describe())
 
 
-# UF
+# internal
 
-brain_status = pd.read_csv(f'/orange/parisa.rashidi/uf_delirium/seq.csv')
+brain_status = pd.read_csv(f'.../internal_delirium/seq.csv')
 
 brain_status = brain_status[(brain_status["variable"].str.contains("_gcs_")) | (brain_status["variable"].str.contains("_cam_")) | (brain_status["variable"].str.contains("_rass_"))]
 
@@ -335,12 +335,12 @@ brain_status.loc[brain_status["brain_status"] == "coma", "coma"] = 1
 brain_status["delirium"] = 0
 brain_status.loc[brain_status["brain_status"] == "delirium", "delirium"] = 1
 
-delirium_uf = brain_status[brain_status["brain_status"] == "delirium"].sort_values(by=["icustay_id", "interval"])
+delirium_internal = brain_status[brain_status["brain_status"] == "delirium"].sort_values(by=["icustay_id", "interval"])
 
-delirium_uf = delirium_uf.drop_duplicates(subset=["icustay_id"], keep="first").reset_index(drop=True)
-delirium_uf["days"] = ((delirium_uf["interval"] // 2) + 1).astype(int)
-print(delirium_uf.iloc[:20])
-print(delirium_uf["days"].describe())
+delirium_internal = delirium_internal.drop_duplicates(subset=["icustay_id"], keep="first").reset_index(drop=True)
+delirium_internal["days"] = ((delirium_internal["interval"] // 2) + 1).astype(int)
+print(delirium_internal.iloc[:20])
+print(delirium_internal["days"].describe())
 
 
 # Merge all
@@ -350,19 +350,19 @@ delirium_mimic = delirium_mimic.rename({"stay_id": "icustay_id"}, axis=1)
 
 cols = ["icustay_id", "delirium", "days"]
 
-delirium_uf = delirium_uf.loc[:,cols]
+delirium_internal = delirium_internal.loc[:,cols]
 delirium_eicu = delirium_eicu.loc[:,cols]
 delirium_mimic = delirium_mimic.loc[:,cols]
 
 delirium_mimic["icustay_id"] = delirium_mimic["icustay_id"].astype(int)
 delirium_eicu["icustay_id"] = delirium_eicu["icustay_id"].astype(int)
-delirium_uf["icustay_id"] = delirium_uf["icustay_id"].astype(int)
+delirium_internal["icustay_id"] = delirium_internal["icustay_id"].astype(int)
 
 delirium_mimic["icustay_id"] = "MIMIC_" + delirium_mimic["icustay_id"].astype(str)
 delirium_eicu["icustay_id"] = "EICU_" + delirium_eicu["icustay_id"].astype(str)
-delirium_uf["icustay_id"] = "UF_" + delirium_uf["icustay_id"].astype(str)
+delirium_internal["icustay_id"] = "internal_" + delirium_internal["icustay_id"].astype(str)
 
-delirium = pd.concat([delirium_eicu, delirium_mimic, delirium_uf])
+delirium = pd.concat([delirium_eicu, delirium_mimic, delirium_internal])
 
 print(delirium.iloc[:20])
 print(delirium["days"].describe())

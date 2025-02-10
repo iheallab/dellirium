@@ -1,4 +1,4 @@
-eicu,mimic,uf
+eicu,mimic,internal
 Non-Invasive BP Diastolic,Non Invasive Blood Pressure diastolic,vital_bp_non_invasive_diastolic
 Non-Invasive BP Systolic,Non Invasive Blood Pressure systolic,vital_bp_non_invasive_systolic
 Heart Rate,Heart Rate,vital_clean_heart_rate
