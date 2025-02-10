@@ -1,0 +1,61 @@
+eicu,mimic,uf
+Non-Invasive BP Diastolic,Non Invasive Blood Pressure diastolic,vital_bp_non_invasive_diastolic
+Non-Invasive BP Systolic,Non Invasive Blood Pressure systolic,vital_bp_non_invasive_systolic
+Heart Rate,Heart Rate,vital_clean_heart_rate
+O2 Saturation,O2 saturation pulseoxymetry,vital_clean_spo2
+PT - INR,INR,lab_34714-6
+Temperature (C),Temperature Celsius,vital_clean_temp_celsius
+Respiratory Rate,Respiratory Rate,vital_clean_respiratory_rate
+-basos,Absolute Count - Basos,lab_704-7
+-eos,Absolute Count - Eos,lab_711-2
+-lymphs,Absolute Count - Lymphs,lab_731-0
+ALT (SGPT),ALT,lab_1742-6
+AST (SGOT),AST,lab_1920-8
+Hct,Hematocrit (whole blood - calc),lab_20570-8
+Hgb,Hemoglobin,lab_718-7
+WBC x 1000,WBC,lab_26464-8
+albumin,Albumin,lab_1751-7
+anion gap,Anion gap,lab_33037-3
+calcium,Calcium non-ionized,lab_17861-6
+chloride,Chloride (serum),lab_2075-0
+creatinine,Creatinine (serum),lab_2160-0
+glucose,Glucose (serum),lab_2345-7
+platelets x 1000,Platelet Count,lab_26515-7
+potassium,Potassium (serum),lab_2823-3
+sodium,Sodium (serum),lab_2951-2
+-monos,Absolute Count - Monos,lab_742-7
+FiO2,Inspired O2 Fraction,vital_fio2
+LPM O2,O2 Flow,vital_clean_o2_l_min
+pH,PH (Arterial),lab_2744-1
+paCO2,Arterial CO2 Pressure,lab_2019-8
+paO2,Arterial O2 pressure,lab_2703-7
+PEEP,Total PEEP Level,vital_clean_peep
+Tidal Volume Observed (VT),Tidal Volume (observed),vital_tidal_volume
+BNP,Brain Natiuretic Peptide (BNP),lab_30934-4
+total bilirubin,Total Bilirubin,lab_1975-2
+GCS,gcs,score_gcs_total
+direct bilirubin,Direct Bilirubin,lab_1968-7
+urinary specific gravity,Specific Gravity (urine),lab_2965-2
+lactate,Lactic Acid,lab_32693-4
+bedside glucose,Glucose (serum),lab_2345-7
+Base Excess,Arterial Base Excess,lab_1925-7
+folate,Folic Acid,med_folic_acid
+O2 Sat (%),Arterial O2 Saturation,lab_2708-6
+ionized calcium,Ionized Calcium,lab_1994-3
+CRP,C Reactive Protein (CRP),lab_30522-7
+Digoxin,Digoxin (Lanoxin),med_digoxin
+Peak Insp. Pressure,Peak Insp. Pressure,vital_clean_pip
+End Tidal CO2,EtCO2,vital_clean_etco2
+RASS,rass,score_rass_score
+Propofol (mcg/kg/min),Propofol,med_propofol
+CAM,cam,score_cam_score
+troponin - T,Troponin-T,lab_6598-7
+Heparin (units/hr),Heparin Sodium,med_heparin_sodium_(porcine)
+Amiodarone (mg/min),Amiodarone,med_amiodarone_hcl
+Fentanyl (mcg/hr),Fentanyl,med_fentanyl
+Dexmedetomidine (mcg/kg/hr),Dexmedetomidine (Precedex),med_dexmedetomidine_hcl_[200_mcg/2ml]_|_sodium_chloride
+Norepinephrine,Norepinephrine,med_norepinephrine_bitartrate
+Dopamine,Dopamine,med_dopamine_in_d5w
+Epinephrine,Epinephrine,med_epinephrine
+Phenylephrine,Phenylephrine,med_phenylephrine_hcl_(pressors)
+Vasopressin,Vasopressin,med_vasopressin
