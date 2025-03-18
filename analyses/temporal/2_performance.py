@@ -13,6 +13,8 @@ from scipy.stats import ttest_ind
 from scipy.stats import t
 from scipy.stats import norm
 import math
+from plotly.subplots import make_subplots
+
 
 MAIN_DIR = '.../clinical_notes/main3'
 
@@ -126,12 +128,16 @@ for test_set in test_sets:
                     print(f"{model}")
                     
                     count = 2
+                    
+                    delirium_day_incidence = {}
 
                     for day in days:
                         
                         print(f"day {count}")
-                        
+
                         results_week = results[((results["days"] == day)) | (results["days"] == 0)]
+                        delirium_incidence = (results_week["true"].sum() / len(results_week)) * 100
+                        print(f"Delirium incidence on day {day}: {delirium_incidence:.2f}")
                         
                         model_probs = results_week["pred"].values
                         model_true = results_week["true"].values
@@ -141,6 +147,7 @@ for test_set in test_sets:
                         print(f"AUROC {roc_auc*100:.1f} ({ci_lower*100:.1f}-{ci_upper*100:.1f})")
                         
                         data[labels[count_model]][f"Day {count}"] = f"{roc_auc*100:.1f} ({ci_lower*100:.1f}-{ci_upper*100:.1f})"
+                        delirium_day_incidence[f"Day {count}"] = delirium_incidence
                         
                         count += 1
                     
@@ -179,11 +186,13 @@ for test_set in test_sets:
     width = 0.25  # Width of bars
 
     # Initialize Plotly Figure
-    fig = go.Figure()
+    
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
 
     # Plot each model
     for i, (model, color) in enumerate(colors.items()):
         y_with_errors = [mean + error for mean, error in zip(means[model], errors[model])]
+
         fig.add_trace(
             go.Bar(
                 name=model,
@@ -196,8 +205,25 @@ for test_set in test_sets:
                 ),
                 marker_color=color,
                 width=width,
-            )
+            ),
+            secondary_y=False  # Bars use primary y-axis
         )
+        
+    fig.add_trace(
+        go.Scatter(
+            name="Delirium Incidence",
+            x=days,
+            y=list(delirium_day_incidence.values()),
+            mode='lines+markers',
+            line=dict(color='black', dash='dash'),  # Customize style as desired
+            marker=dict(size=8),
+            yaxis='y2'
+        ),
+        secondary_y=True
+    )
+
+    # Update layout to limit y-axis range
+    fig.update_yaxes(range=[0, 5], secondary_y=True)
 
     # Function to perform t-tests and add significance annotations
     def add_significance_annotations(fig, x, means, errors, width):
@@ -276,15 +302,30 @@ for test_set in test_sets:
     # Add significance annotations
     add_significance_annotations(fig, x, means, errors, width)
 
-    # Customize layout
     fig.update_layout(
-        xaxis=dict(title="Days", titlefont=dict(size=20), tickfont=dict(size=20), tickmode="array", tickvals=list(range(len(days))), ticktext=days),
-        yaxis=dict(title="AUROC", range=[0, 100], titlefont=dict(size=20), tickfont=dict(size=20)),
+        yaxis=dict(
+            title=dict(text="AUROC", font=dict(size=20)),
+            range=[0, 100],
+            tickfont=dict(size=20)
+        ),
+        yaxis2=dict(
+            title=dict(text="Delirium Incidence (%)", font=dict(size=20)),
+            overlaying='y',
+            side='right',
+            tickfont=dict(size=20)
+        ),
+        xaxis=dict(
+            title=dict(text="Days", font=dict(size=20)),
+            tickfont=dict(size=20),
+            tickmode="array",
+            tickvals=list(range(len(days))),
+            ticktext=days
+        ),
         barmode="group",
         legend=dict(
-            orientation="h",  # Horizontal legend
+            orientation="h",
             yanchor="bottom",
-            y=1.1,  # Position above the plot
+            y=1.1,
             xanchor="center",
             x=0.5,
             font=dict(size=20),
@@ -293,6 +334,7 @@ for test_set in test_sets:
         width=1800,
         height=600,
     )
+
     
     fig.write_image(
         f'{ANALYSIS_DIR}/auroc_comparison_{test_set}.png'

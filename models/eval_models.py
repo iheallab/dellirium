@@ -33,7 +33,6 @@ exclude = ["OLD"]
 
 outcomes = ["delirium_1"]
 
-# test_sets = ["internal", "external_1", "external_2", "total_external"]
 test_sets = ["internal", "total_external"]
 
 
@@ -254,6 +253,7 @@ for outcome in outcomes:
     model_order = [
         "catboost",
         "nn",
+        "concare",
         "transformer",
         "mamba",
         "modernbert",
